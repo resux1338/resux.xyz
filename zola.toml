@@ -1,0 +1,62 @@
+# Site config for resux.xyz (Zola 0.23)
+base_url = "https://resux.xyz"
+title = "resux1338"
+description = "resux1338 - infosec."
+default_language = "en"
+author = "resux"
+
+compile_sass = false
+minify_html = true
+build_search_index = false
+
+# Atom feed of all writeups at /atom.xml
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+
+[markdown]
+external_links_target_blank = true
+external_links_no_referrer = true
+bottom_footnotes = true
+# Each heading gets a "##"-style link to itself (see templates/anchor-link.html)
+insert_anchor_links = "left"
+
+[markdown.highlighting]
+# Writes static/giallo.css at build time; colours come from this theme,
+# backgrounds are overridden in static/css/site.css
+theme = "tokyo-night"
+style = "class"
+
+[extra]
+handle = "resux"
+name = "Tobias R"
+role = "offensive security - OSCP+"
+bio = "Former Linux and AD sysadmin, breaking what I used to build. Writeups of retired HTB machines and CTFs"
+avatar_alt = "resux avatar: a plush cat in a wizard hat with glowing blue eyes"
+
+# Status line with the glowing dot. Set open_to_work = false to hide it.
+open_to_work = true
+open_to_work_text = "open to pentest roles"
+
+certs = [
+  { name = "OSCP+", note = "2026" },
+  { name = "CRTP", note = "in progress" },
+]
+
+# Hack The Box block in the sidebar. Remove both lines to hide it.
+htb_rank = "Elite Hacker · Grandmaster"
+htb_stats = [
+  { name = "Machines", value = "186" },
+  { name = "Fortresses", value = "6/6" },
+  { name = "Challenges", value = "69" },
+  ]
+   htb_labs = { label = "Pro Labs", items = ["P.O.O", "Xen"] }
+# Sidebar links. topbar = true also shows the link in the bar on writeup pages.
+links = [
+  { name = "GitHub", url = "https://github.com/resux1338", topbar = true },
+  { name = "HTB", url = "https://app.hackthebox.com/public/users/2155210", topbar = true },
+  # { name = "LinkedIn", url = "https://www.linkedin.com/in/CHANGE_ME" },
+  # { name = "Email", url = "mailto:CHANGE_ME" },
+]
+
+# Path to an Impressum page, e.g. "@/impressum.md". Footer link appears once set.
+# impressum = "@/impressum.md"

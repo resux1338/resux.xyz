@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block body %}
+{% set writeups = get_section(path="writeups/_index.md") %}
+<div class="layout">
+  {% include "partials/sidebar.html" %}
+
+  <main class="main" id="main">
+    <div class="main-inner">
+      <header class="list-head">
+        <div>
+          <h2 class="list-title">Writeups</h2>
+          <p class="list-sub">Retired lab machines and CTF challenges, solved by hand.</p>
+        </div>
+        <a class="mono-link" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">RSS</a>
+      </header>
+
+      {% if writeups.pages %}
+      <ol class="entries">
+        {% for p in writeups.pages %}
+        <li class="entry">
+          <time class="entry-date" datetime="{{ p.date }}">{{ p.date | date(format="%Y-%m-%d") }}</time>
+          <div class="entry-body">
+            <h3 class="entry-title"><a href="{{ p.permalink | safe }}">{{ p.title }}</a></h3>
+            {% include "partials/tags.html" %}
+            {% if p.extra.chain %}
+            <ol class="chain">{% for step in p.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}
+      <p class="empty">First writeup coming soon.</p>
+      {% endif %}
+
+      {% include "partials/footer.html" %}
+    </div>
+  </main>
+</div>
+{% endblock body %}

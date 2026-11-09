@@ -1,0 +1,5 @@
+<footer class="site-footer">
+  <span>© {{ config.extra.handle }}</span>
+  <a href="{{ get_url(path='atom.xml', trailing_slash=false) }}">RSS</a>
+  {% if config.extra.impressum %}<a href="{{ get_url(path=config.extra.impressum) }}">Impressum</a>{% endif %}
+</footer>

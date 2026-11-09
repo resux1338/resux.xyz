@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="{{ config.default_language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ config.title }} · writeups{% endblock title %}</title>
+  {% block meta %}
+  <meta name="description" content="{{ config.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ config.title }}">
+  <meta property="og:description" content="{{ config.description }}">
+  <meta property="og:url" content="{{ config.base_url }}/">
+  {% endblock meta %}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:image" content="{{ get_url(path='og.jpg') }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0D0F12">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='favicon-32.png') }}">
+  <link rel="apple-touch-icon" href="{{ get_url(path='apple-touch-icon.png') }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }} writeups" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
+  <link rel="stylesheet" href="{{ get_url(path='giallo.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='css/site.css', cachebust=true) }}">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  {% block body %}{% endblock body %}
+  <script src="{{ get_url(path='js/code.js', cachebust=true) }}" defer></script>
+</body>
+</html>

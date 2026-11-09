@@ -1,0 +1,6 @@
+{# expects `p` = a page #}
+<ul class="tags" aria-label="Tags">
+  {% if p.extra.platform %}<li>{{ p.extra.platform }}</li>{% endif %}
+  {% if p.extra.os %}<li>{{ p.extra.os }}</li>{% endif %}
+  {% if p.extra.difficulty %}<li>{{ p.extra.difficulty }}</li>{% endif %}
+</ul>

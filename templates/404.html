@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Not found · {{ config.title }}{% endblock title %}
+
+{% block body %}
+<main class="notfound" id="main">
+  <p class="notfound-code">404</p>
+  <h1 class="notfound-title">Nothing here.</h1>
+  <p class="notfound-text">The page you asked for doesn't exist, or it moved.</p>
+  <a class="mono-link" href="{{ get_url(path='@/_index.md') }}">← back to the writeups</a>
+</main>
+{% endblock body %}

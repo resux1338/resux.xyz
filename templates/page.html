@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} · {{ config.title }}{% endblock title %}
+
+{% block meta %}
+{% if page.description %}
+<meta name="description" content="{{ page.description }}">
+<meta property="og:description" content="{{ page.description }}">
+{% else %}
+<meta name="description" content="{{ config.description }}">
+<meta property="og:description" content="{{ config.description }}">
+{% endif %}
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:url" content="{{ page.permalink | safe }}">
+<meta property="article:published_time" content="{{ page.date }}">
+{% endblock meta %}
+
+{% block body %}
+<header class="topbar">
+  <nav class="crumbs" aria-label="Site">
+    <a class="crumb-home" href="{{ get_url(path='@/_index.md') }}">{{ config.extra.handle }}</a>
+    <span class="crumb-sep" aria-hidden="true">/</span>
+    <a href="{{ get_url(path='@/_index.md') }}">writeups</a>
+  </nav>
+  {% if config.extra.links %}
+  <ul class="topbar-links">
+    {% for link in config.extra.links %}{% if link.topbar %}
+    <li><a href="{{ link.url }}" rel="me noopener">{{ link.name }}</a></li>
+    {% endif %}{% endfor %}
+  </ul>
+  {% endif %}
+</header>
+
+<main class="post-wrap" id="main">
+  <article class="post">
+    <a class="back" href="{{ get_url(path='@/_index.md') }}">← all writeups</a>
+
+    <header class="post-head">
+      {% set p = page %}{% include "partials/tags.html" %}
+      <h1 class="post-title">{{ page.title }}</h1>
+      <p class="post-meta"><time datetime="{{ page.date }}">{{ page.date | date(format="%Y-%m-%d") }}</time> · {{ page.reading_time }} min read</p>
+    </header>
+
+    {% if page.extra.chain %}
+    <section class="chain-box" aria-labelledby="chain-label">
+      <h2 class="side-label" id="chain-label">Attack chain</h2>
+      <ol class="chain">{% for step in page.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
+    </section>
+    {% endif %}
+
+    <div class="prose">
+      {{ page.content | safe }}
+    </div>
+
+    <nav class="post-nav" aria-label="More writeups">
+      {% if page.lower %}<a class="prev" href="{{ page.lower.permalink | safe }}">← {{ page.lower.title }}</a>{% else %}<span></span>{% endif %}
+      {% if page.higher %}<a class="next" href="{{ page.higher.permalink | safe }}">{{ page.higher.title }} →</a>{% endif %}
+    </nav>
+  </article>
+</main>
+
+<div class="post-footer">
+  {% include "partials/footer.html" %}
+</div>
+{% endblock body %}
