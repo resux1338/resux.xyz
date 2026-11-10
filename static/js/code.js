@@ -1,12 +1,12 @@
-// Wraps each code block in the writeups with a header showing the
-// language and a copy button. Without JS the blocks still render fine.
+// Adds a "Copy" button to command blocks in the writeups: fenced blocks with
+// a language other than plain text. Output blocks get no button.
+// Also adds the "Top" button that appears after scrolling down.
+// Without JS the blocks still render fine and there is simply no button.
 (function () {
   "use strict";
 
-  var COPY_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-
-  // Zola reports the highlighter's grammar name, not what was written after the backticks
-  var LANG_NAMES = { shellscript: "bash", plain: "text" };
+  // data-lang values Zola emits for blocks that are not commands
+  var PLAIN = { "": true, plain: true, text: true, txt: true };
 
   // Plain text of a block: one entry per rendered line, line numbers dropped
   function codeText(code) {
@@ -43,43 +43,58 @@
   document.querySelectorAll(".prose pre").forEach(function (pre) {
     var code = pre.querySelector("code") || pre;
     var lang = code.getAttribute("data-lang") || pre.getAttribute("data-lang") || "";
+    if (PLAIN[lang.toLowerCase()]) return;
 
-    var wrap = document.createElement("figure");
+    var wrap = document.createElement("div");
     wrap.className = "codeblock";
-
-    var head = document.createElement("figcaption");
-    head.className = "codeblock-head";
-
-    var label = document.createElement("span");
-    label.textContent = LANG_NAMES[lang] || lang || "text";
 
     var btn = document.createElement("button");
     btn.type = "button";
     btn.className = "copy";
-    btn.innerHTML = COPY_ICON + '<span class="copy-label">copy</span>';
+    btn.textContent = "Copy";
     btn.setAttribute("aria-label", "Copy code to clipboard");
 
     var timer;
     btn.addEventListener("click", function () {
-      var labelEl = btn.querySelector(".copy-label");
       copy(codeText(code)).then(function () {
-        btn.dataset.state = "done";
-        labelEl.textContent = "copied";
+        btn.textContent = "Copied";
       }, function () {
-        labelEl.textContent = "failed";
+        btn.textContent = "Failed";
       }).then(function () {
         clearTimeout(timer);
-        timer = setTimeout(function () {
-          delete btn.dataset.state;
-          labelEl.textContent = "copy";
-        }, 1600);
+        timer = setTimeout(function () { btn.textContent = "Copy"; }, 1600);
       });
     });
 
-    head.appendChild(label);
-    head.appendChild(btn);
     pre.parentNode.insertBefore(wrap, pre);
-    wrap.appendChild(head);
+    wrap.appendChild(btn);
     wrap.appendChild(pre);
+  });
+
+  // "Top" button: hidden until the page is scrolled one screen down
+  var top = document.createElement("button");
+  top.type = "button";
+  top.className = "to-top";
+  top.textContent = "\u2191 Top";
+  top.setAttribute("aria-label", "Back to top");
+  top.hidden = true;
+  document.body.appendChild(top);
+
+  function toggle() {
+    var show = window.scrollY > window.innerHeight;
+    if (top.hidden === show) top.hidden = !show;
+  }
+  window.addEventListener("scroll", toggle, { passive: true });
+  window.addEventListener("resize", toggle);
+  toggle();
+
+  top.addEventListener("click", function () {
+    window.scrollTo(0, 0);
+    // the button hides itself now, so hand keyboard focus to the start of the page
+    var header = document.querySelector(".site-header");
+    if (header) {
+      header.setAttribute("tabindex", "-1");
+      header.focus({ preventScroll: true });
+    }
   });
 })();

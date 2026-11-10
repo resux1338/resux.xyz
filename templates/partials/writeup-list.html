@@ -1,0 +1,18 @@
+{# The writeup list. Expects `entry_tag` = heading element for entry titles (h2 or h3). #}
+{% set writeups = get_section(path="writeups/_index.md") %}
+{% set with_reading_time = false %}
+{% if writeups.pages %}
+<ol class="entries">
+  {% for p in writeups.pages %}
+  <li class="entry">
+    <{{ entry_tag }} class="entry-title"><a href="{{ p.permalink | safe }}">{{ p.title }}</a></{{ entry_tag }}>
+    {% include "partials/meta.html" %}
+    {% if p.extra.chain %}
+    <ol class="chain" aria-label="Attack chain">{% for step in p.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% else %}
+<p class="empty">First writeup coming soon.</p>
+{% endif %}

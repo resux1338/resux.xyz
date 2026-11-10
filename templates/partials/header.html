@@ -1,0 +1,19 @@
+{# Shared header. current_path is missing on the 404 page, hence the default. #}
+{% set here = current_path | default(value="") %}
+{% set writeups_url = get_url(path="@/writeups/_index.md") %}
+{% set goodies_url = get_url(path="@/goodies.md") %}
+{% set about_url = get_url(path="@/about.md") %}
+<header class="site-header">
+  <a class="brand" href="{{ get_url(path='@/_index.md') }}"><img class="avatar" src="{{ get_url(path='avatar.webp') }}" width="40" height="40" alt="{{ config.extra.avatar_alt }}">{{ config.extra.handle }}</a>
+  <nav aria-label="Site">
+    <ul class="nav">
+      <li><a href="{{ writeups_url }}"{% if here == "/writeups/" %} aria-current="page"{% elif here[:10] == "/writeups/" %} aria-current="true"{% endif %}>Writeups</a></li>
+      <li><a href="{{ goodies_url }}"{% if here == "/goodies/" %} aria-current="page"{% endif %}>Goodies</a></li>
+      <li><a href="{{ about_url }}"{% if here == "/about/" %} aria-current="page"{% endif %}>About</a></li>
+      {% for link in config.extra.links %}
+      <li><a href="{{ link.url }}" rel="me noopener">{{ link.name }}</a></li>
+      {% endfor %}
+      <li><a href="{{ get_url(path='atom.xml', trailing_slash=false) }}">RSS</a></li>
+    </ul>
+  </nav>
+</header>

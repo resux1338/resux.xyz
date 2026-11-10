@@ -17,50 +17,44 @@
 {% endblock meta %}
 
 {% block body %}
-<header class="topbar">
-  <nav class="crumbs" aria-label="Site">
-    <a class="crumb-home" href="{{ get_url(path='@/_index.md') }}">{{ config.extra.handle }}</a>
-    <span class="crumb-sep" aria-hidden="true">/</span>
-    <a href="{{ get_url(path='@/_index.md') }}">writeups</a>
-  </nav>
-  {% if config.extra.links %}
-  <ul class="topbar-links">
-    {% for link in config.extra.links %}{% if link.topbar %}
-    <li><a href="{{ link.url }}" rel="me noopener">{{ link.name }}</a></li>
-    {% endif %}{% endfor %}
-  </ul>
-  {% endif %}
-</header>
-
-<main class="post-wrap" id="main">
-  <article class="post">
-    <a class="back" href="{{ get_url(path='@/_index.md') }}">← all writeups</a>
-
-    <header class="post-head">
-      {% set p = page %}{% include "partials/tags.html" %}
-      <h1 class="post-title">{{ page.title }}</h1>
-      <p class="post-meta"><time datetime="{{ page.date }}">{{ page.date | date(format="%Y-%m-%d") }}</time> · {{ page.reading_time }} min read</p>
-    </header>
-
+{# The jump register shows once a writeup has three or more ## sections #}
+{% set toc = page.toc %}
+{% set show_toc = toc | length >= 3 %}
+<article class="post">
+  <header class="post-head">
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% set p = page %}{% set with_reading_time = true %}{% include "partials/meta.html" %}
     {% if page.extra.chain %}
-    <section class="chain-box" aria-labelledby="chain-label">
-      <h2 class="side-label" id="chain-label">Attack chain</h2>
-      <ol class="chain">{% for step in page.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
-    </section>
+    <ol class="chain" aria-label="Attack chain">{% for step in page.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
     {% endif %}
+    {% if show_toc %}
+    {# narrow screens: a closed fold-out under the title #}
+    <details class="toc-fold">
+      <summary>Contents</summary>
+      <nav aria-label="Contents">{% include "partials/toc.html" %}</nav>
+    </details>
+    {% endif %}
+  </header>
 
-    <div class="prose">
-      {{ page.content | safe }}
-    </div>
-
-    <nav class="post-nav" aria-label="More writeups">
-      {% if page.lower %}<a class="prev" href="{{ page.lower.permalink | safe }}">← {{ page.lower.title }}</a>{% else %}<span></span>{% endif %}
-      {% if page.higher %}<a class="next" href="{{ page.higher.permalink | safe }}">{{ page.higher.title }} →</a>{% endif %}
+  {% if show_toc %}
+  {# wide screens: the same list in the margin beside the column, in view while scrolling #}
+  <div class="toc-rail">
+    <nav class="toc-side" aria-labelledby="toc-side-label">
+      <p class="toc-label" id="toc-side-label">Contents</p>
+      {% include "partials/toc.html" %}
     </nav>
-  </article>
-</main>
+  </div>
+  {% endif %}
 
-<div class="post-footer">
-  {% include "partials/footer.html" %}
-</div>
+  <div class="prose">
+    {{ page.content | safe }}
+  </div>
+
+  {% if page.lower or page.higher %}
+  <nav class="post-nav" aria-label="More writeups">
+    {% if page.lower %}<a class="prev" href="{{ page.lower.permalink | safe }}">← {{ page.lower.title }}</a>{% else %}<span></span>{% endif %}
+    {% if page.higher %}<a class="next" href="{{ page.higher.permalink | safe }}">{{ page.higher.title }} →</a>{% endif %}
+  </nav>
+  {% endif %}
+</article>
 {% endblock body %}

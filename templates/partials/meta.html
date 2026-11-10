@@ -1,0 +1,4 @@
+{# Meta line for a writeup. Expects `p` = a page; set `with_reading_time` for the "N min read" part.
+   Lower-case front matter values are mapped through [extra.display_names] in zola.toml. #}
+{% set names = config.extra.display_names | default(value={}) %}
+<p class="meta"><time datetime="{{ p.date }}">{{ p.date | date(format="%Y-%m-%d") }}</time>{% if p.extra.platform %} · {{ names | get(key=p.extra.platform, default=p.extra.platform) }}{% endif %}{% if p.extra.os %} · {{ names | get(key=p.extra.os, default=p.extra.os) }}{% endif %}{% if p.extra.difficulty %} · {{ names | get(key=p.extra.difficulty, default=p.extra.difficulty) }}{% endif %}{% if with_reading_time %} · {{ p.reading_time }}&nbsp;min&nbsp;read{% endif %}</p>

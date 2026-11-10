@@ -14,17 +14,25 @@
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:image" content="{{ get_url(path='og.jpg') }}">
   <meta name="twitter:card" content="summary">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#0D0F12">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='favicon-32.png') }}">
   <link rel="apple-touch-icon" href="{{ get_url(path='apple-touch-icon.png') }}">
   <link rel="alternate" type="application/atom+xml" title="{{ config.title }} writeups" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
-  <link rel="stylesheet" href="{{ get_url(path='giallo.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='giallo-light.css') }}" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="{{ get_url(path='giallo-dark.css') }}" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="{{ get_url(path='css/site.css', cachebust=true) }}">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  {% block body %}{% endblock body %}
+  <div class="page">
+    {% include "partials/header.html" %}
+    <main id="main">
+      {% block body %}{% endblock body %}
+    </main>
+    {% include "partials/footer.html" %}
+  </div>
   <script src="{{ get_url(path='js/code.js', cachebust=true) }}" defer></script>
 </body>
 </html>

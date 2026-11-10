@@ -9,6 +9,10 @@ compile_sass = false
 minify_html = true
 build_search_index = false
 
+# Zola runs its template engine over Markdown too. Off for writeups and Goodies, so
+# payloads like {{7*7}} are published as written instead of being evaluated.
+skip_content_templating = ["writeups/**", "goodies.md"]
+
 # Atom feed of all writeups at /atom.xml
 generate_feeds = true
 feed_filenames = ["atom.xml"]
@@ -17,46 +21,66 @@ feed_filenames = ["atom.xml"]
 external_links_target_blank = true
 external_links_no_referrer = true
 bottom_footnotes = true
-# Each heading gets a "##"-style link to itself (see templates/anchor-link.html)
-insert_anchor_links = "left"
+# Headings keep their ids for deep links but get no visible anchor marker
+insert_anchor_links = "none"
 
 [markdown.highlighting]
-# Writes static/giallo.css at build time; colours come from this theme,
-# backgrounds are overridden in static/css/site.css
-theme = "tokyo-night"
+# Writes giallo-light.css and giallo-dark.css at build time (classes z-l-* / z-d-*).
+# base.html loads one or the other by prefers-color-scheme; backgrounds and a few
+# low-contrast token colours are overridden in static/css/site.css
+light_theme = "github-light"
+dark_theme = "github-dark"
 style = "class"
 
 [extra]
 handle = "resux"
-name = "Tobias R"
-role = "offensive security - OSCP+"
-bio = "Former Linux and AD sysadmin, breaking what I used to build. Writeups of retired HTB machines and CTFs"
 avatar_alt = "resux avatar: a plush cat in a wizard hat with glowing blue eyes"
+email = "resuxinfo@proton.me"
 
-# Status line with the glowing dot. Set open_to_work = false to hide it.
-open_to_work = true
-open_to_work_text = "open to pentest roles"
+# PGP row under Contact on the About page; links to static/pgp.asc.
+# Comment the next line out to hide the row.
+pgp_fingerprint = "D461 2B91 BF55 FFD9 6D9C A024 ECCC 09E7 D6A9 2575"
 
+# Extra rows under Contact on the About page, after Email, PGP and GitHub
+contact_rows = [
+  { name = "CV, LinkedIn", value = "On request" },
+]
+
+# Certifications table on the About page
 certs = [
   { name = "OSCP+", note = "2026" },
   { name = "CRTP", note = "in progress" },
 ]
 
-# Hack The Box block in the sidebar. Remove both lines to hide it.
+# Hack The Box table on the About page. Remove htb_rank to hide the whole section.
 htb_rank = "Elite Hacker · Grandmaster"
 htb_stats = [
   { name = "Machines", value = "186" },
   { name = "Fortresses", value = "6/6" },
   { name = "Challenges", value = "69" },
-  ]
-   htb_labs = { label = "Pro Labs", items = ["P.O.O", "Xen"] }
-# Sidebar links. topbar = true also shows the link in the bar on writeup pages.
+]
+htb_labs = { label = "Pro Labs", items = ["P.O.O", "Xen"] }
+
+# External links in the header nav, in this order (after Writeups and About, before RSS).
+# The About page looks up "GitHub" and "HTB" here by name for its own links.
 links = [
-  { name = "GitHub", url = "https://github.com/resux1338", topbar = true },
-  { name = "HTB", url = "https://app.hackthebox.com/public/users/2155210", topbar = true },
-  # { name = "LinkedIn", url = "https://www.linkedin.com/in/CHANGE_ME" },
-  # { name = "Email", url = "mailto:CHANGE_ME" },
+  { name = "GitHub", url = "https://github.com/resux1338" },
+  { name = "HTB", url = "https://app.hackthebox.com/public/users/2155210" },
 ]
 
 # Path to an Impressum page, e.g. "@/impressum.md". Footer link appears once set.
 # impressum = "@/impressum.md"
+
+# How the lower-case platform / os / difficulty values from writeup front matter are
+# shown in meta lines. Values missing here are shown as written.
+# Keep this table last: any key below it would land inside it.
+[extra.display_names]
+hacksmarter = "HackSmarter"
+htb = "Hack The Box"
+ctf = "CTF"
+windows = "Windows"
+linux = "Linux"
+easy = "Easy"
+medium = "Medium"
+hard = "Hard"
+insane = "Insane"

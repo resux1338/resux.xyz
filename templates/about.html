@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} · {{ config.title }}{% endblock title %}
+
+{% block meta %}
+<meta name="description" content="{{ page.description | default(value=config.description) }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.description | default(value=config.description) }}">
+<meta property="og:url" content="{{ page.permalink | safe }}">
+{% endblock meta %}
+
+{% block body %}
+<section class="intro">
+  <h1 class="page-title">{{ page.title }}</h1>
+  {# Paragraphs come from content/about.md; the tables below come from [extra] in zola.toml #}
+  {{ page.content | safe }}
+</section>
+
+{% if config.extra.certs %}
+<section class="section" aria-labelledby="certs-heading">
+  <h2 class="section-title" id="certs-heading">Certifications</h2>
+  <dl class="rows">
+    {% for cert in config.extra.certs %}
+    <div><dt>{{ cert.name }}</dt><dd>{{ cert.note }}</dd></div>
+    {% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if config.extra.htb_rank %}
+<section class="section" aria-labelledby="htb-heading">
+  <h2 class="section-title" id="htb-heading">Hack The Box</h2>
+  <dl class="rows">
+    <div><dt>Rank</dt><dd>{{ config.extra.htb_rank }}</dd></div>
+    {% for row in config.extra.htb_stats | default(value=[]) %}
+    <div><dt>{{ row.name }}</dt><dd>{{ row.value }}</dd></div>
+    {% endfor %}
+    {% if config.extra.htb_labs %}
+    <div><dt>{{ config.extra.htb_labs.label }}</dt><dd>{{ config.extra.htb_labs.items | join(sep=", ") }}</dd></div>
+    {% endif %}
+  </dl>
+  {% for link in config.extra.links %}{% if link.name == "HTB" %}
+  <p class="after-rows"><a href="{{ link.url }}" rel="me noopener">HTB profile</a></p>
+  {% endif %}{% endfor %}
+</section>
+{% endif %}
+
+<section class="section" aria-labelledby="contact-heading">
+  <h2 class="section-title" id="contact-heading">Contact</h2>
+  <dl class="rows">
+    {% if config.extra.email %}
+    <div><dt>Email</dt><dd><a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a></dd></div>
+    {% endif %}
+    {% if config.extra.pgp_fingerprint %}
+    <div><dt>PGP</dt><dd><a href="{{ get_url(path='pgp.asc') }}">{{ config.extra.pgp_fingerprint }}</a></dd></div>
+    {% endif %}
+    {% for link in config.extra.links %}{% if link.name == "GitHub" %}
+    <div><dt>GitHub</dt><dd><a href="{{ link.url }}" rel="me noopener">{{ link.url | replace(from="https://", to="") }}</a></dd></div>
+    {% endif %}{% endfor %}
+    {% for row in config.extra.contact_rows | default(value=[]) %}
+    <div><dt>{{ row.name }}</dt><dd>{{ row.value }}</dd></div>
+    {% endfor %}
+  </dl>
+</section>
+{% endblock body %}

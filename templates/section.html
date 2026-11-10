@@ -1,3 +1,9 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
 {% block title %}Writeups · {{ config.title }}{% endblock title %}
+
+{% block body %}
+<h1 class="page-title">Writeups</h1>
+{% set entry_tag = "h2" %}
+{% include "partials/writeup-list.html" %}
+{% endblock body %}
