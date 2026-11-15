@@ -2,7 +2,7 @@
 title = "HSM Defense"
 date = 2026-11-15
 description = "Assumed-breach AD box with NTLM switched off. A timeroasted computer account, a logonHours block, an OU move for inherited GenericAll, an RC4-forced Kerberoast, a credential-leaking SSH client and constrained delegation to Domain Admin."
-draft = true
+draft = false
 
 [extra]
 platform = "hacksmarter"
