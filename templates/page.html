@@ -16,16 +16,38 @@
 <meta property="article:published_time" content="{{ page.date }}">
 {% endblock meta %}
 
+{# Link previews use the writeup's banner.png when it has one #}
+{% block social_image %}
+{% set_global og_banner = false %}
+{% for asset in page.assets %}{% if asset is ending_with(pat="/banner.png") %}{% set_global og_banner = true %}{% endif %}{% endfor %}
+{% if og_banner %}
+<meta property="og:image" content="{{ page.permalink | safe }}banner.png">
+<meta name="twitter:card" content="summary_large_image">
+{% else %}
+<meta property="og:image" content="{{ get_url(path='og.jpg') }}">
+<meta name="twitter:card" content="summary">
+{% endif %}
+{% endblock social_image %}
+
 {% block body %}
 {# The jump register shows once a writeup has three or more ## sections #}
 {% set toc = page.toc %}
 {% set show_toc = toc | length >= 3 %}
+{# A banner.png in the writeup's folder becomes a cropped strip above the title #}
+{% set_global has_banner = false %}
+{% for asset in page.assets %}{% if asset is ending_with(pat="/banner.png") %}{% set_global has_banner = true %}{% endif %}{% endfor %}
 <article class="post">
+  {% if has_banner %}
+  <img class="banner" src="{{ page.permalink | safe }}banner.png" alt=""{% if page.extra.banner_y is defined %} style="object-position: 50% {{ page.extra.banner_y }}%"{% endif %}>
+  {% endif %}
   <header class="post-head">
     <h1 class="post-title">{{ page.title }}</h1>
     {% set p = page %}{% set with_reading_time = true %}{% include "partials/meta.html" %}
     {% if page.extra.chain %}
     <ol class="chain" aria-label="Attack chain">{% for step in page.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
+    {% endif %}
+    {% if page.taxonomies.tags %}
+    <ul class="tags" aria-label="Techniques">{% for tag in page.taxonomies.tags %}<li><a href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">{{ tag }}</a></li>{% endfor %}</ul>
     {% endif %}
     {% if show_toc %}
     {# narrow screens: a closed fold-out under the title #}

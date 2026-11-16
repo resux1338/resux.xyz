@@ -4,6 +4,9 @@ date = 2026-11-08
 description = "Assumed-breach AD box with SMB and LDAP filtered. Enumeration and the whole privesc chain run over ADWS, Kerberos and WinRM instead: BloodHound via SOAPy, Shadow Credentials, S4U2self, and an NTDS.dit dump."
 draft = false
 
+[taxonomies]
+tags = ["Active Directory", "ADWS", "Shadow Credentials", "S4U2self", "NTDS.dit dump"]
+
 [extra]
 platform = "hacksmarter"
 os = "windows"

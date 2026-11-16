@@ -1,15 +1,21 @@
-{# The writeup list. Expects `entry_tag` = heading element for entry titles (h2 or h3). #}
-{% set writeups = get_section(path="writeups/_index.md") %}
+{# A list of writeups. Expects `entries` = the pages to list and
+   `entry_tag` = heading element for entry titles (h2 or h3). #}
 {% set with_reading_time = false %}
-{% if writeups.pages %}
+{% if entries %}
 <ol class="entries">
-  {% for p in writeups.pages %}
-  <li class="entry">
-    <{{ entry_tag }} class="entry-title"><a href="{{ p.permalink | safe }}">{{ p.title }}</a></{{ entry_tag }}>
-    {% include "partials/meta.html" %}
-    {% if p.extra.chain %}
-    <ol class="chain" aria-label="Attack chain">{% for step in p.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
-    {% endif %}
+  {% for p in entries %}
+  {# A badge.png in the writeup's folder is shown as a round thumbnail beside the entry #}
+  {% set_global has_badge = false %}
+  {% for asset in p.assets %}{% if asset is ending_with(pat="/badge.png") %}{% set_global has_badge = true %}{% endif %}{% endfor %}
+  <li class="entry{% if has_badge %} has-badge{% endif %}">
+    {% if has_badge %}<img class="badge" src="{{ p.permalink | safe }}badge.png" width="48" height="48" alt="" loading="lazy">{% endif %}
+    <div class="entry-body">
+      <{{ entry_tag }} class="entry-title"><a href="{{ p.permalink | safe }}">{{ p.title }}</a></{{ entry_tag }}>
+      {% include "partials/meta.html" %}
+      {% if p.extra.chain %}
+      <ol class="chain" aria-label="Attack chain">{% for step in p.extra.chain %}<li>{{ step }}</li>{% endfor %}</ol>
+      {% endif %}
+    </div>
   </li>
   {% endfor %}
 </ol>

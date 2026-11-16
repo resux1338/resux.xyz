@@ -4,6 +4,9 @@ date = 2026-11-15
 description = "Assumed-breach AD box with NTLM switched off. A timeroasted computer account, a logonHours block, an OU move for inherited GenericAll, an RC4-forced Kerberoast, a credential-leaking SSH client and constrained delegation to Domain Admin."
 draft = false
 
+[taxonomies]
+tags = ["Active Directory", "Timeroasting", "ACL abuse", "Password spraying", "Kerberoasting", "SSH MITM", "Constrained delegation"]
+
 [extra]
 platform = "hacksmarter"
 os = "windows"

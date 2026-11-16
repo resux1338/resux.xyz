@@ -4,6 +4,8 @@
 
 {% block body %}
 <h1 class="page-title">Writeups</h1>
+<p class="browse"><a href="{{ get_url(path='tags') }}">Browse by technique</a></p>
+{% set entries = section.pages %}
 {% set entry_tag = "h2" %}
 {% include "partials/writeup-list.html" %}
 {% endblock body %}

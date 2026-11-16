@@ -89,6 +89,29 @@ main { margin-top: 56px; }
   display: inline-flex; align-items: center; gap: 12px; min-height: 44px;
   font-size: 17px; font-weight: 600; color: var(--text);
 }
+/* search field between the brand and the nav; js/search.js fills the list below the header */
+.site-header { position: relative; }
+.search { flex: 1 1 110px; min-width: 0; }
+.search[hidden], .search [hidden] { display: none; }
+.search input {
+  display: block; width: 100%; height: 34px; padding: 0 10px;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: transparent; color: var(--text);
+  font-family: var(--font-sans); font-size: 14px;
+}
+.search input::placeholder { color: var(--muted); opacity: 1; }
+.search-results, .search-status {
+  position: absolute; z-index: 6; left: 0; right: 0; top: calc(100% + 6px);
+  margin: 0; padding: 6px; list-style: none;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--bg); box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+.search-status { padding: 12px 16px; font-size: 14px; color: var(--muted); }
+.search-results a { display: block; padding: 8px 10px; border-radius: 4px; }
+.search-results a:hover, .search-results a:focus-visible { background: var(--code-bg); outline: none; }
+.search-results .hit-title { display: block; font-size: 15px; font-weight: 600; color: var(--text); }
+.search-results .hit-text { display: block; font-size: 13px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+.search-results mark { background: var(--hl-line); color: var(--text); border-radius: 2px; }
 .avatar { display: block; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .nav { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0 20px; font-size: 15px; }
 @media (max-width: 420px) { .nav { gap: 0 12px; } }  /* six links fit one row from 390px up */
@@ -135,6 +158,9 @@ main { margin-top: 56px; }
 /* the negative margin grows the tap target to 44px without moving the text */
 .entry-title a { display: block; margin: -10px 0; padding: 10px 0; color: var(--text); text-decoration: none; }
 .entry-title a:hover { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.entry.has-badge { display: flex; align-items: flex-start; gap: 14px; }
+.entry-body { flex: 1; min-width: 0; }
+.badge { flex: none; width: 48px; height: 48px; margin-top: 2px; border-radius: 50%; }
 .entry .meta { margin-top: 2px; }
 .entry .chain { margin-top: 4px; }
 
@@ -147,7 +173,25 @@ main { margin-top: 56px; }
 .rows a { display: inline-block; margin: -9px 0; padding: 9px 0; }
 .after-rows { margin-top: 12px; }
 
+/* technique tags: under the chain on a writeup, and the index at /tags/ */
+.tags { list-style: none; padding: 0; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 2px 14px; font-size: 14px; line-height: 1.5; }
+main .tags a, main .browse a { color: var(--muted); text-decoration: none; }
+main .tags a::before { content: "#"; }
+main .tags a:hover, main .browse a:hover { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.browse { margin: -6px 0 14px; font-size: 14px; }
+.section-title + .browse { margin: -4px 0 6px; }
+.tag-index { list-style: none; padding: 0; columns: 2 220px; column-gap: 32px; }
+.tag-index li { padding: 4px 0; break-inside: avoid; }
+main .tag-index a { color: var(--text); text-decoration: none; }
+main .tag-index a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.tag-index .count { margin-left: 4px; font-size: 13px; color: var(--muted); }
+
 /* ---------- writeup page ---------- */
+.banner {
+  display: block; width: 100%; margin-bottom: 28px;
+  aspect-ratio: 9 / 2; object-fit: cover; object-position: 50% 12%;  /* 12% frames the badge on an HTB pwn card */
+  border: 1px solid var(--border); border-radius: 6px;
+}
 .post-head { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
 .post-title { font-size: 34px; line-height: 1.2; letter-spacing: -0.02em; overflow-wrap: break-word; }
 .post-head .meta { margin-top: 10px; }

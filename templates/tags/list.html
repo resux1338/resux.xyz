@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Techniques · {{ config.title }}{% endblock title %}
+
+{% block body %}
+{# Every tag used in a writeup's [taxonomies] tags, with the number of writeups #}
+<h1 class="page-title">Techniques</h1>
+<ul class="tag-index">
+  {% for t in terms %}
+  <li><a href="{{ t.permalink | safe }}">{{ t.name }}</a> <span class="count">{{ t.pages | length }}</span></li>
+  {% endfor %}
+</ul>
+{% endblock body %}

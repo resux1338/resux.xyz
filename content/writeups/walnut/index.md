@@ -4,6 +4,9 @@ date = 2026-11-15
 description = "Assumed-breach Linux box. A password in an LDAP description still works on Samba, the share is a home directory with an SSH key in it, a plaintext password store leads to a job account, and that account can edit /etc/exports and restart NFS."
 draft = false
 
+[taxonomies]
+tags = ["LDAP enumeration", "Password reuse", "Plaintext credentials", "NFS no_root_squash"]
+
 [extra]
 platform = "hacksmarter"
 os = "linux"

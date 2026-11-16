@@ -7,7 +7,12 @@ author = "resux"
 
 compile_sass = false
 minify_html = true
-build_search_index = false
+build_search_index = true
+
+# Technique tags: [taxonomies] tags = [...] in a writeup's front matter. Pages at /tags/
+taxonomies = [
+  { name = "tags", feed = false },
+]
 
 # Zola runs its template engine over Markdown too. Off for writeups and Goodies, so
 # payloads like {{7*7}} are published as written instead of being evaluated.
@@ -16,6 +21,17 @@ skip_content_templating = ["writeups/**", "goodies.md"]
 # Atom feed of all writeups at /atom.xml
 generate_feeds = true
 feed_filenames = ["atom.xml"]
+
+# `zola check`: GitHub builds heading anchors in the browser, so they can't be verified
+[link_checker]
+skip_anchor_prefixes = ["https://github.com/"]
+
+# Search index for the header search field (js/search.js reads the JSON file)
+[search]
+index_format = "fuse_json"
+include_title = true
+include_description = true
+include_content = true
 
 [markdown]
 external_links_target_blank = true

@@ -8,6 +8,9 @@
 
 <section class="section" aria-labelledby="writeups-heading">
   <h2 class="section-title" id="writeups-heading">Writeups</h2>
+  <p class="browse"><a href="{{ get_url(path='tags') }}">Browse by technique</a></p>
+  {% set writeups = get_section(path="writeups/_index.md") %}
+  {% set entries = writeups.pages %}
   {% set entry_tag = "h3" %}
   {% include "partials/writeup-list.html" %}
 </section>

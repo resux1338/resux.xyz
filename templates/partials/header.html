@@ -5,6 +5,15 @@
 {% set about_url = get_url(path="@/about.md") %}
 <header class="site-header">
   <a class="brand" href="{{ get_url(path='@/_index.md') }}"><img class="avatar" src="{{ get_url(path='avatar.webp') }}" width="40" height="40" alt="{{ config.extra.avatar_alt }}">{{ config.extra.handle }}</a>
+  {# Hidden until js/search.js runs; results are listed under the header #}
+  <div class="search" role="search" data-index="{{ get_url(path='search_index.en.json') }}" hidden>
+    <input type="search" id="search-input" placeholder="Search" aria-label="Search the site" autocomplete="off" spellcheck="false">
+    <p class="search-status" role="status" hidden></p>
+    <ul class="search-results" hidden></ul>
+    {# tag name -> writeup URLs, so a search also matches a writeup's tags #}
+    {% set tax = get_taxonomy(kind="tags") %}
+    <script type="application/json" class="search-tags">{ {% for t in tax.items %}{{ t.name | json_encode | safe }}: [{% for p in t.pages %}{{ p.permalink | json_encode | safe }}{% if not loop.last %}, {% endif %}{% endfor %}]{% if not loop.last %}, {% endif %}{% endfor %} }</script>
+  </div>
   <nav aria-label="Site">
     <ul class="nav">
       <li><a href="{{ writeups_url }}"{% if here == "/writeups/" %} aria-current="page"{% elif here[:10] == "/writeups/" %} aria-current="true"{% endif %}>Writeups</a></li>

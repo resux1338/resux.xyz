@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ term.name }} · {{ config.title }}{% endblock title %}
+
+{% block body %}
+{# The writeups carrying one tag #}
+<h1 class="page-title">{{ term.name }}</h1>
+<p class="browse"><a href="{{ get_url(path='tags') }}">All techniques</a></p>
+{% set entries = term.pages %}
+{% set entry_tag = "h2" %}
+{% include "partials/writeup-list.html" %}
+{% endblock body %}

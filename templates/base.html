@@ -12,8 +12,10 @@
   <meta property="og:url" content="{{ config.base_url }}/">
   {% endblock meta %}
   <meta property="og:site_name" content="{{ config.title }}">
+  {% block social_image %}
   <meta property="og:image" content="{{ get_url(path='og.jpg') }}">
   <meta name="twitter:card" content="summary">
+  {% endblock social_image %}
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
@@ -34,5 +36,6 @@
     {% include "partials/footer.html" %}
   </div>
   <script src="{{ get_url(path='js/code.js', cachebust=true) }}" defer></script>
+  <script src="{{ get_url(path='js/search.js', cachebust=true) }}" defer></script>
 </body>
 </html>
