@@ -2,7 +2,7 @@
 title = "GearVault"
 date = 2026-11-17
 description = "Assumed-breach AD box that starts with error-based SQLi on the web shop, reaches xp_cmdshell through a TRUSTWORTHY database, and uses GodPotato for SYSTEM on the web server. An Autologon.exe LSA secret gives a domain foothold, a GenericAll chain through IT-Helpdesk gets a WinRM user, and Backup Operators access ends in a DCSync off the domain controller."
-draft = false
+draft = true
 
 [taxonomies]
 tags = ["MSSQL", "SQL injection", "Plaintext credentials", "ACL abuse", "SeImpersonatePrivilege", "Active Directory"]
