@@ -277,7 +277,7 @@ main .tag-index a:hover { text-decoration: underline; text-decoration-thickness:
 .prose pre {
   --pad-x: 16px;  /* side padding */
   --end: 0px;     /* extra room at the line end, set where a Copy button sits */
-  overflow-x: auto;
+  overflow-x: hidden;  /* long lines wrap (below) so a whole command reads at once */
   padding: 14px var(--pad-x);
   background: var(--code-bg);
   border-radius: 6px;
@@ -287,7 +287,7 @@ main .tag-index a:hover { text-decoration: underline; text-decoration-thickness:
   scrollbar-width: thin;
   scrollbar-color: var(--quote-border) transparent;
 }
-.prose pre code { display: block; width: max-content; min-width: 100%; padding-right: var(--end); font: inherit; }
+.prose pre code { display: block; padding-right: var(--end); font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
 .prose pre span { font-weight: 400; }
 .giallo-l { display: inline-block; width: 100%; min-height: 1lh; }
 .giallo-ln { display: inline-block; margin-right: 1em; user-select: none; color: var(--muted); }
